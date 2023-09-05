@@ -1,0 +1,56 @@
+# TARGET_EXEC := final_program
+
+CC = mingw32-gcc.exe
+
+BUILD_DIR := ./build
+SRC_DIRS := ./src
+
+# SRCS := $(shell find $(SRC_DIRS) -name '*.c' -or -name '*.s')
+
+# OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
+
+# DEPS := $(OBJS:.o=.d)
+
+INC_DIRS = src/external/SDL2/include
+
+INC_FLAGS = -I$(INC_DIRS)
+
+LIB_DIRS = src/external/SDL2/lib
+
+LIB_FLAGS = -L$(LIB_DIRS)
+
+CFLAGS = -lmingw32 -lSDL2main -lSDL2
+
+# # Build step for C source
+# $(BUILD_DIR)/%.c.o: %.c
+# 	mkdir -p $(dir $@)
+# 	$(CC) $(CCFLAGS) $(CFLAGS) -c $< -o $@
+
+# clean:
+# 	rm -r $(BUILD_DIR)
+
+OBJ =\
+     src/main.o 
+
+sources = src/main.c
+objects = $(sources:.c=.o)
+ 
+
+# %.o: %.c
+# 	$(CC) - -c $< -o $@
+
+# .c.o:
+# 	$(CC) -c $(BUILD_DIR) $(INC_FLAGS) $(CFLAGS)
+
+
+all:
+	$(CC) -Wall $(INC_FLAGS) $(LIB_FLAGS) -o $(sources) $(CFLAGS)
+
+# main: $(OBJ)
+# 	$(CC) $(OBJ) $(LIB_FLAGS) -o $(BUILD_DIR) $(OBJ)
+
+.PHONY: clean
+
+clean:
+	rm $(objects)
+# $(CC) $(INC_FLAGS) $(LIB_FLAGS) -o main src/main.c $(CCFLAGS)

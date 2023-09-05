@@ -1,0 +1,27 @@
+EXECUTABLE = src/main.c
+
+CC = "C:\MinGW\bin\gcc.exe"
+
+INC_DIRS = src/external/SDL2/include
+
+INC_FLAGS = -I$(INC_DIRS)
+
+LIB_DIRS = src/external/SDL2/lib
+
+LIB_FLAGS = -L$(LIB_DIRS)
+
+CFLAGS = -lmingw32 -lSDL2main -lSDL2
+LDFLAGS = -Wall $(LIB_FLAGS) $(INC_FLAGS) $(CFLAGS)
+
+src = $(wildcard *.c)
+obj = $(src:.c=.o)
+
+all: myprog
+
+myprog: $(obj)
+	$(CC) -o $(EXECUTABLE) $^ $(LDFLAGS)
+
+.PHONY: clean
+
+clean:
+	del $(obj)
