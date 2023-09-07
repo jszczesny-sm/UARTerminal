@@ -8,10 +8,14 @@
 #define WIDTH 800
 #define HEIGHT 600
 
+#define FPS 30
+#define FRAME_TARGET_TIME (1000 / FPS)
+
 /* Global variable */
 SDL_Window *window;
 SDL_Renderer *renderer;
 int game_is_running;
+int last_frame_time = 0;
 
 /* function protype */
 int initialize_window();
@@ -99,11 +103,25 @@ int process_input()
 
 int update()
 {
+    // Wait (Sleep) some time until we reach the frame target time 
+    while (!SDL_TICKS_PASSED(SDL_GetTicks(), last_frame_time + FRAME_TARGET_TIME));
+
+    last_frame_time = SDL_GetTicks();
+
     return TRUE;
 }
 
 int render()
 {
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_Rect rect = {
+        30,
+        30,
+        40,
+        40
+    };
+    SDL_RenderFillRect(renderer, &rect);
+    SDL_RenderPresent(renderer);
     return TRUE;
 }
 
